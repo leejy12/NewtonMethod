@@ -1,28 +1,37 @@
-#pragma once
+#ifndef NEWTON_H
+#define NEWTON_H
 
 #define TOLERANCE       0.000001
-#define EPSILON         0.0000001
+#define EPSILON         0.00001
 #define MAX_ITERATION   30
 
 #include <vector>
 
+enum {
+	FAIL = -123456789
+};
+
 class Polynomial {
 private:
-    int degree;
-    std::vector<float> coeff;
+	int degree;
+	std::vector<float> coeff;
 
 public:
-    Polynomial(int deg);
+	Polynomial(int deg);
 
-    void init();
+	void init();
 
-    void init(std::vector<float>& cff);
+	void init(std::vector<float>& cff);
 
-    float operator() (float x) const;
+	int getDegree() const;
 
-    void show() const;
+	float operator() (float x) const;
 
-    Polynomial derivative() const;
+	void show() const;
+
+	Polynomial derivative() const;
 };
 
 float newtonMethod(Polynomial& f, float ix);
+
+#endif
