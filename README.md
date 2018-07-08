@@ -1,7 +1,5 @@
-# NewtonMethod
-Newton's Method Implementation in C++
+# Polynomial Solver
 
-This program will let you see Newton's Method in action.
-This program only deals with polynomial functions (because they are easy to differentiate)
+Polynomial equation solver, using Newton's Method, written in C++
 
-For more info, go to https://en.wikipedia.org/wiki/Newton%27s_method
+This program will let you find real roots of polynomial equations.
