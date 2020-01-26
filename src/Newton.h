@@ -10,11 +10,13 @@
 #include <vector>
 #include <iostream>
 
-enum {
+enum
+{
 	FAIL = -123456789
 };
 
-class Polynomial {
+class Polynomial
+{
 private:
 	int degree;
 	std::vector<float> coeff;
