@@ -12,9 +12,8 @@ Polynomial::Polynomial(int deg)
 void Polynomial::init()
 {
 	std::cout << "Enter " << degree << " coefficients and a constant." << std::endl;
-	for (int i = 0; i < degree + 1; i++) {
+	for (int i = 0; i < degree + 1; i++)
 		std::cin >> coeff[i];
-	}
 }
 
 void Polynomial::init(const std::vector<float>& cff)
