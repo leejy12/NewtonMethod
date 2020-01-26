@@ -14,10 +14,6 @@ void findAllRoots(Polynomial& f)
 	float root;
 	float range[2], allRoots[100];
 
-	//////////////////////////////////////////
-	// float precision_level = 0.1f;
-	//////////////////////////////////////////
-
 	for (int i = 0; i < 10; i++) {
 
 		range[0] = -100.0f + i * 0.1f;
@@ -81,7 +77,6 @@ int main()
 	f.init();
 
 	findAllRoots(f);
-
-	std::cin.ignore();
-	std::cin.get();
+	
+	return 0;
 } 
