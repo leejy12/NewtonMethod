@@ -16,18 +16,18 @@ void Polynomial::init()
 		std::cin >> coeff[i];
 }
 
-void Polynomial::init(const std::vector<float>& cff)
+void Polynomial::init(const std::vector<float> &cff)
 {
 	for (int i = 0, size = cff.size(); i < size; i++)
 		coeff[i] = cff[i];
 }
 
-int Polynomial::getDegree() const
+int Polynomial::GetDegree() const
 {
 	return degree;
 }
 
-float Polynomial::operator() (float x) const
+float Polynomial::operator()(float x) const
 {
 	float res = 0;
 	for (int i = 0; i < degree + 1; i++)
@@ -35,21 +35,21 @@ float Polynomial::operator() (float x) const
 	return res;
 }
 
-Polynomial Polynomial::derivative() const
+Polynomial Polynomial::Derivative() const
 {
 	Polynomial derived(degree - 1);
 	std::vector<float> dv_coeff(degree);
 
 	for (int i = 0; i < degree; i++)
-		dv_coeff[i] = (degree - i) * coeff[i];  // Power rule
+		dv_coeff[i] = (degree - i) * coeff[i]; // Power rule
 
 	derived.init(dv_coeff);
 	return derived;
 }
 
-std::ostream& operator<<(std::ostream& os, const Polynomial& f)
+std::ostream &operator<<(std::ostream &os, const Polynomial &f)
 {
-	int degree = f.getDegree();
+	int degree = f.GetDegree();
 	for (int i = 0; i < degree; i++)
 	{
 		if (f.coeff[i] == 0)
@@ -63,7 +63,7 @@ std::ostream& operator<<(std::ostream& os, const Polynomial& f)
 		else if (f.coeff[i] == -1)
 			os << "-x";
 		else
-		os << f.coeff[i] << "x";
+			os << f.coeff[i] << "x";
 		if (i != degree - 1)
 			os << "^" << degree - i;
 		if (f.coeff[i + 1] > 0)
@@ -75,14 +75,14 @@ std::ostream& operator<<(std::ostream& os, const Polynomial& f)
 	return os;
 }
 
-float NewtonMethod(const Polynomial& f, float ix)
+float NewtonMethod(const Polynomial &f, float ix)
 {
 	if (f(ix) == 0.0f)
 		return ix;
 
 	float x0 = ix, x1;
 	float y, yprime;
-	Polynomial fprime = f.derivative();
+	Polynomial fprime = f.Derivative();
 
 	for (int i = 0; i < MAX_ITERATION; i++)
 	{
@@ -104,11 +104,11 @@ float NewtonMethod(const Polynomial& f, float ix)
 	return FAIL;
 }
 
-void FindAllRoots(const Polynomial& f)
+void FindAllRoots(const Polynomial &f)
 {
 	std::cout << "\nsolving " << f << "=0\n";
 
-	int max_roots = f.getDegree();
+	int max_roots = f.GetDegree();
 	int roots_found = 0, idx = 0;
 	float root;
 	float range[2], allRoots[100];
@@ -123,7 +123,7 @@ void FindAllRoots(const Polynomial& f)
 			if (f(range[0]) * f(range[1]) <= 0)
 			{
 				root = NewtonMethod(f, range[0]);
-				if (root != FAIL) 
+				if (root != FAIL)
 				{
 					allRoots[idx++] = root;
 					roots_found++;
