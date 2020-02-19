@@ -10,7 +10,7 @@ int main()
     std::cin >> degree;
     Polynomial f(degree);
 
-    std::cout << "Enter initial guess: ";
+    std::cout << "Enter starting value: ";
     std::cin >> start;
 
     std::cout << "Solving " << f << "=0 using Newton's method starting at x0 = " << start << '\n';
