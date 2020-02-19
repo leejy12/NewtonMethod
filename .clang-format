@@ -1,3 +1,4 @@
+
 AccessModifierOffset: -4
 AlignTrailingComments: false
 AllowShortFunctionsOnASingleLine: false
@@ -6,6 +7,5 @@ ConstructorInitializerAllOnOneLineOrOnePerLine: true
 IndentWidth: 4
 PointerBindsToType: true
 SortIncludes: false
-Standard: Cpp17
 TabWidth: 4
 UseTab: Never
