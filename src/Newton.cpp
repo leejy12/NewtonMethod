@@ -9,7 +9,8 @@ Polynomial::Polynomial(int deg) : _degree(deg)
         std::cin >> _coeff[i];
 }
 
-Polynomial::Polynomial(const std::vector<float>& cff) : _coeff(cff)
+Polynomial::Polynomial(const std::vector<float>& cff)
+    : _degree(cff.size() - 1), _coeff(cff)
 {
 }
 
@@ -18,7 +19,7 @@ int Polynomial::GetDegree() const
     return _degree;
 }
 
-float Polynomial::operator()(float x) const
+float Polynomial::operator()(const float x) const
 {
     float res = 0;
     for (int i = 0; i < _degree + 1; i++)
@@ -39,8 +40,7 @@ Polynomial Polynomial::Derivative() const
 
 std::ostream& operator<<(std::ostream& os, const Polynomial& f)
 {
-    int degree = f.GetDegree();
-    for (int i = 0; i < degree; i++)
+    for (int i = 0; i < f._degree; i++)
     {
         if (f._coeff[i] == 0)
         {
@@ -54,13 +54,13 @@ std::ostream& operator<<(std::ostream& os, const Polynomial& f)
             os << "-x";
         else
             os << f._coeff[i] << "x";
-        if (i != degree - 1)
-            os << "^" << degree - i;
+        if (i != f._degree - 1)
+            os << "^" << f._degree - i;
         if (f._coeff[i + 1] > 0)
             os << "+";
     }
-    if (f._coeff[degree] != 0)
-        os << f._coeff[degree];
+    if (f._coeff[f._degree] != 0)
+        os << f._coeff[f._degree];
 
     return os;
 }
@@ -68,7 +68,7 @@ std::ostream& operator<<(std::ostream& os, const Polynomial& f)
 std::optional<float> NewtonMethod(const Polynomial& f, float ix)
 {
     // initial guess is very close to root
-    if (f(ix) < EPSILON)
+    if (f(ix) < PRECISION)
         return ix;
 
     float x0 = ix, x1;
@@ -82,16 +82,20 @@ std::optional<float> NewtonMethod(const Polynomial& f, float ix)
 
         // Division By Zero
         if (std::abs(yprime) < EPSILON)
+        {
+            std::cout << "Division by zero\n";
             return {};
+        }
 
         x1 = x0 - y / yprime;
 
-        if (std::abs(x1 - x0) < TOLERANCE)
+        if (std::abs(x1 - x0) < PRECISION)
             return x1;
         else
             x0 = x1;
     }
 
     // Did not converge, return empty optional
+    std::cout << "Failed to converge.\n";
     return {};
 }

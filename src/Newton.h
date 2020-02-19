@@ -3,8 +3,8 @@
 #ifndef NEWTON_H
 #define NEWTON_H
 
-#define TOLERANCE 0.000001
-#define EPSILON 0.000001
+#define PRECISION 0.000001
+#define EPSILON 0.00001
 #define MAX_ITERATION 30
 
 #include <iostream>
@@ -22,7 +22,7 @@ public:
     Polynomial(const std::vector<float>& cff);
 
     int GetDegree() const;
-    float operator()(float x) const;
+    float operator()(const float x) const;
     Polynomial Derivative() const;
 
     friend std::ostream& operator<<(std::ostream& os, const Polynomial& f);
