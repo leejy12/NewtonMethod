@@ -4,37 +4,30 @@
 #define NEWTON_H
 
 #define TOLERANCE 0.000001
-#define EPSILON 0.00001
+#define EPSILON 0.000001
 #define MAX_ITERATION 30
 
-#include <vector>
 #include <iostream>
-
-enum
-{
-	FAIL = -123456789
-};
+#include <vector>
+#include <optional>
 
 class Polynomial
 {
 private:
-	int degree;
-	std::vector<float> coeff;
+    int _degree;
+    std::vector<float> _coeff;
 
 public:
-	Polynomial(int deg);
+    Polynomial(int deg);
+    Polynomial(const std::vector<float>& cff);
 
-	void init();
-	void init(const std::vector<float> &cff);
+    int GetDegree() const;
+    float operator()(float x) const;
+    Polynomial Derivative() const;
 
-	int GetDegree() const;
-	float operator()(float x) const;
-	Polynomial Derivative() const;
-
-	friend std::ostream &operator<<(std::ostream &os, const Polynomial &f);
+    friend std::ostream& operator<<(std::ostream& os, const Polynomial& f);
 };
 
-float NewtonMethod(const Polynomial &f, float ix);
-void FindAllRoots(const Polynomial &f);
+std::optional<float> NewtonMethod(const Polynomial& f, float ix);
 
 #endif

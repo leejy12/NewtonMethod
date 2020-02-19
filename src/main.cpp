@@ -1,16 +1,17 @@
-#include <iostream>
 #include "Newton.h"
 
 int main()
 {
-	int degree;
-	std::cout << "Enter the degree of polynomial: ";
-	std::cin >> degree;
+    int degree;
+	float start;
+	std::optional<float> result;
 
-	Polynomial f(degree);
-	f.init();
+    std::cout << "Enter the degree of polynomial: ";
+    std::cin >> degree;
+	std::cout << "Enter initial guess: ";
+	std::cin >> start;
 
-	FindAllRoots(f);
-	
-	return 0;
-} 
+    Polynomial f(degree);
+
+    return 0;
+}

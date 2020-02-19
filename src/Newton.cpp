@@ -1,169 +1,97 @@
-#include <iostream>
-#include <cmath>
-#include <algorithm>
 #include "Newton.h"
+#include <cmath>
 
-Polynomial::Polynomial(int deg)
-	: degree(deg)
+Polynomial::Polynomial(int deg) : _degree(deg)
 {
-	coeff.resize(deg + 1);
+    _coeff.resize(deg + 1);
+    std::cout << "Enter " << _degree << " coefficients and a constant.\n";
+    for (int i = 0; i < _degree + 1; i++)
+        std::cin >> _coeff[i];
 }
 
-void Polynomial::init()
+Polynomial::Polynomial(const std::vector<float>& cff) : _coeff(cff)
 {
-	std::cout << "Enter " << degree << " coefficients and a constant." << std::endl;
-	for (int i = 0; i < degree + 1; i++)
-		std::cin >> coeff[i];
-}
-
-void Polynomial::init(const std::vector<float> &cff)
-{
-	for (int i = 0, size = cff.size(); i < size; i++)
-		coeff[i] = cff[i];
 }
 
 int Polynomial::GetDegree() const
 {
-	return degree;
+    return _degree;
 }
 
 float Polynomial::operator()(float x) const
 {
-	float res = 0;
-	for (int i = 0; i < degree + 1; i++)
-		res += coeff[i] * pow(x, degree - i);
-	return res;
+    float res = 0;
+    for (int i = 0; i < _degree + 1; i++)
+        res += _coeff[i] * pow(x, _degree - i);
+    return res;
 }
 
 Polynomial Polynomial::Derivative() const
 {
-	Polynomial derived(degree - 1);
-	std::vector<float> dv_coeff(degree);
+    std::vector<float> dv_coeff(_degree);
 
-	for (int i = 0; i < degree; i++)
-		dv_coeff[i] = (degree - i) * coeff[i]; // Power rule
+    // Power rule
+    for (int i = 0; i < _degree; i++)
+        dv_coeff[i] = (_degree - i) * _coeff[i];
 
-	derived.init(dv_coeff);
-	return derived;
+    return Polynomial(dv_coeff);
 }
 
-std::ostream &operator<<(std::ostream &os, const Polynomial &f)
+std::ostream& operator<<(std::ostream& os, const Polynomial& f)
 {
-	int degree = f.GetDegree();
-	for (int i = 0; i < degree; i++)
-	{
-		if (f.coeff[i] == 0)
-		{
-			if (f.coeff[i + 1] > 0)
-				os << "+";
-			continue;
-		}
-		if (f.coeff[i] == 1)
-			os << "x";
-		else if (f.coeff[i] == -1)
-			os << "-x";
-		else
-			os << f.coeff[i] << "x";
-		if (i != degree - 1)
-			os << "^" << degree - i;
-		if (f.coeff[i + 1] > 0)
-			os << "+";
-	}
-	if (f.coeff[degree] != 0)
-		os << f.coeff[degree];
+    int degree = f.GetDegree();
+    for (int i = 0; i < degree; i++)
+    {
+        if (f._coeff[i] == 0)
+        {
+            if (f._coeff[i + 1] > 0)
+                os << "+";
+            continue;
+        }
+        if (f._coeff[i] == 1)
+            os << "x";
+        else if (f._coeff[i] == -1)
+            os << "-x";
+        else
+            os << f._coeff[i] << "x";
+        if (i != degree - 1)
+            os << "^" << degree - i;
+        if (f._coeff[i + 1] > 0)
+            os << "+";
+    }
+    if (f._coeff[degree] != 0)
+        os << f._coeff[degree];
 
-	return os;
+    return os;
 }
 
-float NewtonMethod(const Polynomial &f, float ix)
+std::optional<float> NewtonMethod(const Polynomial& f, float ix)
 {
-	if (f(ix) == 0.0f)
-		return ix;
+    // initial guess is very close to root
+    if (f(ix) < EPSILON)
+        return ix;
 
-	float x0 = ix, x1;
-	float y, yprime;
-	Polynomial fprime = f.Derivative();
+    float x0 = ix, x1;
+    float y, yprime;
+    Polynomial fprime = f.Derivative();
 
-	for (int i = 0; i < MAX_ITERATION; i++)
-	{
-		y = f(x0);
-		yprime = fprime(x0);
+    for (int i = 0; i < MAX_ITERATION; i++)
+    {
+        y = f(x0);
+        yprime = fprime(x0);
 
-		// Division By Zero
-		if (std::abs(yprime) < EPSILON)
-			return FAIL;
+        // Division By Zero
+        if (std::abs(yprime) < EPSILON)
+            return {};
 
-		x1 = x0 - y / yprime;
+        x1 = x0 - y / yprime;
 
-		if (std::abs(x1 - x0) < TOLERANCE)
-			return x1;
-		else
-			x0 = x1;
-	}
-	// Did not converge
-	return FAIL;
-}
+        if (std::abs(x1 - x0) < TOLERANCE)
+            return x1;
+        else
+            x0 = x1;
+    }
 
-void FindAllRoots(const Polynomial &f)
-{
-	std::cout << "\nsolving " << f << "=0\n";
-
-	int max_roots = f.GetDegree();
-	int roots_found = 0, idx = 0;
-	float root;
-	float range[2], allRoots[100];
-
-	for (int i = 0; i < 10; i++)
-	{
-		range[0] = -100.0f + i * 0.1f;
-		range[1] = -99.0f + i * 0.1f;
-
-		while (range[1] < 100.0f)
-		{
-			if (f(range[0]) * f(range[1]) <= 0)
-			{
-				root = NewtonMethod(f, range[0]);
-				if (root != FAIL)
-				{
-					allRoots[idx++] = root;
-					roots_found++;
-				}
-				range[0] = range[1];
-				range[1] += 1.0f;
-			}
-			else
-			{
-				range[0] = range[1];
-				range[1] += 1.0f;
-			}
-		}
-	}
-
-	if (roots_found == 0)
-	{
-		std::cout << "No real roots found.\n";
-		return;
-	}
-
-	// sort allRoots[]
-	std::sort(std::begin(allRoots), std::begin(allRoots) + roots_found);
-
-	int cnt = 0;
-	for (int i = 0; i < roots_found; i++)
-	{
-		if (std::abs(allRoots[i] - allRoots[i - 1]) < EPSILON)
-			continue;
-		else
-			cnt++;
-	}
-
-	std::cout << cnt << " real root(s) were found.\n\n";
-	std::cout << "x=" << allRoots[0] << '\n';
-	for (int i = 1; i < roots_found; i++)
-	{
-		if (std::abs(allRoots[i] - allRoots[i - 1]) < EPSILON)
-			continue;
-		else
-			std::cout << "x=" << allRoots[i] << '\n';
-	}
+    // Did not converge, return empty optional
+    return {};
 }
