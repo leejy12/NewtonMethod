@@ -14,18 +14,18 @@
 class Polynomial
 {
 private:
-    int _degree;
-    std::vector<float> _coeff;
+	int _degree;
+	std::vector<float> _coeff;
 
 public:
-    Polynomial(int deg);
-    Polynomial(const std::vector<float>& cff);
+	Polynomial(int deg);
+	Polynomial(const std::vector<float>& cff);
 
-    int GetDegree() const;
-    float operator()(const float x) const;
-    Polynomial Derivative() const;
+	int GetDegree() const;
+	float operator()(const float x) const;
+	Polynomial Derivative() const;
 
-    friend std::ostream& operator<<(std::ostream& os, const Polynomial& f);
+	friend std::ostream& operator<<(std::ostream& os, const Polynomial& f);
 };
 
 std::optional<float> NewtonMethod(const Polynomial& f, float ix);
