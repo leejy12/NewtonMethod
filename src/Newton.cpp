@@ -1,7 +1,8 @@
 #include "Newton.h"
 #include <cmath>
 
-Polynomial::Polynomial(int deg) : _degree(deg)
+Polynomial::Polynomial(int deg)
+    : _degree(deg)
 {
     _coeff.resize(deg + 1);
     std::cout << "Enter " << _degree << " coefficients and a constant.\n";
@@ -96,6 +97,5 @@ std::optional<float> NewtonMethod(const Polynomial& f, float ix)
     }
 
     // Did not converge, return empty optional
-    std::cout << "Failed to converge.\n";
     return {};
 }

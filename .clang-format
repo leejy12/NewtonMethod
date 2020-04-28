@@ -1,12 +1,39 @@
 
 AccessModifierOffset: -4
-AlignTrailingComments: false
-AllowShortFunctionsOnASingleLine: false
+AlignOperands: false
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: false
+AlwaysBreakTemplateDeclarations: Yes
 BreakBeforeBraces: Allman
+BreakConstructorInitializers: BeforeColon
+BraceWrapping:
+  AfterCaseLabel: false
+  AfterClass: true
+  AfterControlStatement: true
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: false
+  AfterStruct: true
+  AfterUnion: true
+  AfterExternBlock: false
+  BeforeCatch: true
+  BeforeElse: true
+  # BeforeLambdaBody: false
+  IndentBraces: true
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: false
 ColumnLimit: 0
-ConstructorInitializerAllOnOneLineOrOnePerLine: true
 IndentWidth: 4
-PointerBindsToType: true
+MaxEmptyLinesToKeep: 1
+PointerAlignment: Left
 SortIncludes: false
+SpaceAfterCStyleCast: false
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeCtorInitializerColon: true
+SpaceBeforeInheritanceColon: true
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyParentheses: false
+SpacesInAngles: false
 TabWidth: 4
-UseTab: Never
+UseTab: ForIndentation
