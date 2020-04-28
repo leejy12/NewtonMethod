@@ -68,6 +68,7 @@ std::ostream& operator<<(std::ostream& os, const Polynomial& f)
 
 std::optional<float> NewtonMethod(const Polynomial& f, float ix)
 {
+<<<<<<< HEAD
 	// initial guess is very close to root
 	if (f(ix) < PRECISION)
 		return ix;
@@ -98,4 +99,36 @@ std::optional<float> NewtonMethod(const Polynomial& f, float ix)
 
 	// Did not converge, return empty optional
 	return {};
+=======
+    // initial guess is very close to root
+    if (f(ix) < PRECISION)
+        return ix;
+
+    float x0 = ix, x1;
+    float y, yprime;
+    Polynomial fprime = f.Derivative();
+
+    for (int i = 0; i < MAX_ITERATION; i++)
+    {
+        y = f(x0);
+        yprime = fprime(x0);
+
+        // Division By Zero
+        if (std::abs(yprime) < EPSILON)
+        {
+            std::cout << "Division by zero\n";
+            return {};
+        }
+
+        x1 = x0 - y / yprime;
+
+        if (std::abs(x1 - x0) < PRECISION)
+            return x1;
+        else
+            x0 = x1;
+    }
+
+    // Did not converge, return empty optional
+    return {};
+>>>>>>> e1db99a6ea4b648b63b6abda7f554fe68d63b924
 }
