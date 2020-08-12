@@ -1,26 +1,41 @@
 #include "Newton.h"
+#include <sstream>
+#include <string>
 
 int main()
 {
-	int degree;
-	float start;
-	std::optional<float> result;
+    std::string strCoefficients;
+    std::vector<double> vCoeffecients;
+    std::stringstream ss;
 
-	std::cout << "Enter the degree of polynomial: ";
-	std::cin >> degree;
-	Polynomial f(degree);
+    std::cout << "Enter coefficients of the polynomial: ";
+    std::getline(std::cin, strCoefficients);
+    ss << strCoefficients;
+    double coeff;
+    while (ss >> coeff)
+        vCoeffecients.push_back(coeff);
 
-	std::cout << "Enter starting value: ";
-	std::cin >> start;
+    if (!ss.eof())
+    {
+        std::cout << "Invalid input.\n";
+        return 1;
+    }
 
-	std::cout << "Solving " << f << "=0 using Newton's method starting at x0 = " << start << '\n';
-	std::cout << "Result\n";
-	result = NewtonMethod(f, start);
+    double start;
+    std::cout << "Enter starting value: ";
+    std::cin >> start;
 
-	if (result)
-		std::cout << "x = " << result.value() << '\n';
-	else
-		std::cout << "Failed to converge.\n";
+    std::cout << "Solving " << f << "=0 using Newton's Method starting at x0 = " << start << '\n';
+    const NewtonMethodResult result = NewtonMethod(f, start);
 
-	return 0;
+    if (result.success)
+    {
+        std::cout << "x = " << result.value() << '\n';
+    }
+    else
+    {
+        std::cout << result.reason() << '\n';
+    }
+
+    return 0;
 }

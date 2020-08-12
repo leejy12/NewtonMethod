@@ -2,12 +2,6 @@
 
 Polynomial equation solver, using Newton's Method, written in C++
 
-## Build
-
-Compiling the program should be straightforward. Make sure you compile with C++17 or higher as this program uses `std::optional`
-
-`g++ src/*.cpp -std=c++17 <other options> -o newtonmethod`
-
 ## Usage
 
 Here is an example.
